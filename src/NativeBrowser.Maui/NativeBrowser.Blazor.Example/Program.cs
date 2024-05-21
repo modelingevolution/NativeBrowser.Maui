@@ -11,7 +11,7 @@ namespace NativeBrowser.Blazor.Example
             // Add services to the container.
             builder.Services.AddRazorComponents()
                 .AddInteractiveServerComponents();
-            builder.Services.AddScoped<JsInterop>();
+            
 
             var app = builder.Build();
 

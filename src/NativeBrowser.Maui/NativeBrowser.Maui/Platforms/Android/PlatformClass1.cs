@@ -87,7 +87,7 @@ namespace NativeBrowser.Maui
         [JavascriptInterface]
         public void SendMessage(string message)
         {
-            Console.WriteLine("Android: "+ message);
+            _webViewHandler.VirtualView.RaiseMessage(message);
         }
     }
 

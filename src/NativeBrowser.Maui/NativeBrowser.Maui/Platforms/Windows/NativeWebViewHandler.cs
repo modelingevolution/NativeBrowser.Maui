@@ -53,7 +53,8 @@ namespace NativeBrowser.Maui
         private string _script;
         private void OnMessageReceived(WebView2 sender, CoreWebView2WebMessageReceivedEventArgs args)
         {
-            string msg = args.TryGetWebMessageAsString();
+            string msg = args.WebMessageAsJson;
+            this.VirtualView.RaiseMessage(msg);
         }
         private void OnCoreInitialized(WebView2 sender, CoreWebView2InitializedEventArgs args)
         {

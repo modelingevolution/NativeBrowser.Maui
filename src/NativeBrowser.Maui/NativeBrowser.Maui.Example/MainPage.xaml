@@ -4,6 +4,6 @@
              xmlns:maui="clr-namespace:NativeBrowser.Maui;assembly=NativeBrowser.Maui"
              x:Class="NativeBrowser.Maui.Example.MainPage">
 
-    <maui:NativeWebView Source="http://192.168.30.77:5197"/>
+    <maui:NativeWebView Source="http://192.168.30.77:5197" x:Name="nv"/>
 
 </ContentPage>
