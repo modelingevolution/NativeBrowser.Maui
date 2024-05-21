@@ -1,1 +1,2 @@
-# View for WebView2 for Maui app
+# NativeBrowser wrapper around native browsers, that supports communication JS (or Blazor) => Maui
+
