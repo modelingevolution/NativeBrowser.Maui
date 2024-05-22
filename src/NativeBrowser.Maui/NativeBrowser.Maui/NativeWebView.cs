@@ -60,30 +60,30 @@ namespace NativeBrowser.Maui
         }
         public Subscription<object> On(string identifier)
         {
-            return (Subscription<object>)_subscriptions.GetOrAdd(identifier, x => new Subscription<object>(identifier));
+            return (Subscription<object>)_subscriptions.GetOrAdd(identifier, x => new Subscription<object>(this,identifier));
         }
         public Subscription<T> On<T>(string identifier)
         {
-            return (Subscription<T>)_subscriptions.GetOrAdd(identifier, x => new Subscription<T>(identifier));
+            return (Subscription<T>)_subscriptions.GetOrAdd(identifier, x => new Subscription<T>(this,identifier));
         }
     }
 
-    public abstract class Subscription(string identifier)
+    public abstract class Subscription(NativeWebView sender, string identifier)
     {
         public string Identifier => identifier;
         internal abstract void Raise(string json);
         internal abstract void Raise();
     }
-    public class Subscription<T>(string identifier) : Subscription(identifier)
+    public class Subscription<T>(NativeWebView sender,string identifier) : Subscription(sender,identifier)
     {
         public event EventHandler<ReceivedMessageEventArgs<T>> Event;
         internal override void Raise(string json)
         {
             var arg = JsonSerializer.Deserialize<T>(json);
-            Event?.Invoke(this, new ReceivedMessageEventArgs<T> { Identifier = Identifier, Data = arg });
+            Event?.Invoke(sender, new ReceivedMessageEventArgs<T> { Identifier = Identifier, Data = arg });
         }
 
-        internal override void Raise() => Event?.Invoke(this, new ReceivedMessageEventArgs<T> { Identifier = Identifier, Data = default(T) });
+        internal override void Raise() => Event?.Invoke(sender, new ReceivedMessageEventArgs<T> { Identifier = Identifier, Data = default(T) });
     }
     public class ReceivedMessageEventArgs<T> : EventArgs
     {

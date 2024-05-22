@@ -53,7 +53,7 @@ namespace NativeBrowser.Maui
         private string _script;
         private void OnMessageReceived(WebView2 sender, CoreWebView2WebMessageReceivedEventArgs args)
         {
-            string msg = args.WebMessageAsJson;
+            string msg = args.TryGetWebMessageAsString();
             this.VirtualView.RaiseMessage(msg);
         }
         private void OnCoreInitialized(WebView2 sender, CoreWebView2InitializedEventArgs args)
@@ -64,6 +64,10 @@ namespace NativeBrowser.Maui
             sender.CoreWebView2.AddScriptToExecuteOnDocumentCreatedAsync(_communicationBus);
             //sender.CoreWebView2.ExecuteScriptAsync(_communicationBus);
             _isInitialized = true;
+        }
+        static partial void OnRegister(IMauiHandlersCollection h)
+        {
+            h.AddHandler<NativeWebView, NativeWebViewHandler>();
         }
         protected override WebView2 CreatePlatformView()
         {

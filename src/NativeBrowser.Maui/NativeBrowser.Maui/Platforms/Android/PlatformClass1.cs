@@ -64,8 +64,11 @@ namespace NativeBrowser.Maui
 
             return webView;
         }
-        
-      
+
+        static partial void OnRegister(IMauiHandlersCollection h)
+        {
+            h.AddHandler<NativeWebView, NativeWebViewHandler>();
+        }
 
         protected override void DisconnectHandler(AWebView platformView)
         {
