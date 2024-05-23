@@ -60,6 +60,7 @@ namespace NativeBrowser.Maui
             var webView = new AWebView(this.Context);
             webView.SetWebViewClient(new CustomWebViewClient());
             webView.Settings.JavaScriptEnabled = true;
+            webView.Settings.UserAgentString += " embedded-viewer";
             webView.AddJavascriptInterface(new NativeBridge(this), "NativeBridge");
 
             return webView;

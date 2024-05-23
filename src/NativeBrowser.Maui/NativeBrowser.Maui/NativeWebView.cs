@@ -36,14 +36,20 @@ namespace NativeBrowser.Maui
                     {
                         string identifier = array[0].GetString();
                         if (!_subscriptions.TryGetValue(identifier, out var subscription)) return;
-                        subscription.Raise();
+                        if (this.Dispatcher.IsDispatchRequired)
+                            this.Dispatcher.Dispatch(() => subscription.Raise());
+                        else subscription.Raise();
                         return;
                     }
                     case 2:
                     {
                         string identifier = array[0].GetString();
                         if (!_subscriptions.TryGetValue(identifier, out var subscription)) return;
-                        subscription.Raise(array[1].GetRawText());
+                        var tx = array[1].GetRawText();
+
+                        if (this.Dispatcher.IsDispatchRequired)
+                            this.Dispatcher.Dispatch(() => subscription.Raise(tx));
+                        else subscription.Raise(tx);
                         return;
                     }
                     default:
@@ -55,7 +61,9 @@ namespace NativeBrowser.Maui
             {
                 string identifier = message.GetString();
                 if (!_subscriptions.TryGetValue(identifier, out var subscription)) return;
-                subscription.Raise();
+                if (this.Dispatcher.IsDispatchRequired)
+                    this.Dispatcher.Dispatch(() => subscription.Raise());
+                else subscription.Raise();
             }
         }
         public Subscription<object> On(string identifier)

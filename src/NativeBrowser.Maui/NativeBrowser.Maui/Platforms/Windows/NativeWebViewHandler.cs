@@ -59,7 +59,7 @@ namespace NativeBrowser.Maui
         private void OnCoreInitialized(WebView2 sender, CoreWebView2InitializedEventArgs args)
         {
             if (_isInitialized) return;
-            
+            sender.CoreWebView2.Settings.UserAgent = "embedded-viewer";
             // It adds this for later.
             sender.CoreWebView2.AddScriptToExecuteOnDocumentCreatedAsync(_communicationBus);
             //sender.CoreWebView2.ExecuteScriptAsync(_communicationBus);
